@@ -12,22 +12,23 @@ from functools import wraps
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = "vybizo_secret_2025"
+app.secret_key = os.environ.get("SECRET_KEY", "vybizo_secret_2025")
 
-# Vercel Fix: Use /tmp/ for SQLite as the main directory is Read-Only
-if os.environ.get("VERCEL"):
+# Deployment Fix: Handle Read-Only/Temporary filesystems
+if os.environ.get("VERCEL") or os.environ.get("RENDER"):
     DB_PATH = "/tmp/users.db"
     UPLOAD_FOLDER = "/tmp/uploads"
+    # Ensure folders exist in /tmp/
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 else:
     DB_PATH = "users.db"
     UPLOAD_FOLDER = os.path.join("static", "uploads")
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 ALLOWED_EXT = {"png", "jpg", "jpeg", "gif", "mp4", "mov", "webm"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
 
-if not os.environ.get("VERCEL"):
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
 def get_db():
