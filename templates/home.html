@@ -169,7 +169,10 @@ const statusEl = document.getElementById('searchStatus');
 function buildCard(p) {
   let media = `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
   if (p.media_file && p.media_type === 'image') media = `<img src="/static/uploads/${p.media_file}" alt="${p.title}" loading="lazy"/>`;
-  if (p.media_file && p.media_type === 'video') media = `<video src="/static/uploads/${p.media_file}" muted loop autoplay playsinline></video>`;
+  if (p.media_file && p.media_type === 'video') media = `<video muted loop autoplay playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;">
+      <source src="/static/uploads/${p.media_file}" type="video/${p.media_file.split('.').pop()}">
+      Your browser does not support the video tag.
+    </video>`;
   const contact = p.contact_number ? `<div class="card-contact"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a2 2 0 011.72-2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6z"/></svg>${p.contact_number}</div>` : '';
   return `<a href="/business/${p.user_id}" class="product-card">
     <div class="card-media">${media}</div>

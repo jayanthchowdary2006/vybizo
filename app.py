@@ -6,7 +6,7 @@
 # ─────────────────────────────────────────────────────────────
 
 from flask import (Flask, render_template, request,
-                   redirect, url_for, session, flash, jsonify)
+                   redirect, url_for, session, flash, jsonify, send_from_directory)
 import sqlite3, hashlib, re, os
 from functools import wraps
 from werkzeug.utils import secure_filename
@@ -28,6 +28,11 @@ else:
 ALLOWED_EXT = {"png", "jpg", "jpeg", "gif", "mp4", "mov", "webm"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
+
+# Custom route to serve media files because /tmp is outside the standard static folder
+@app.route("/static/uploads/<path:filename>")
+def serve_upload(filename):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 
 

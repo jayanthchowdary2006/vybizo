@@ -101,7 +101,9 @@
     <div class="product-card">
       {% if p.media_file %}
         {% if p.media_type == 'video' %}
-          <video class="product-media" controls muted><source src="/static/uploads/{{ p.media_file }}"></video>
+          <video class="product-media" controls muted playsinline preload="metadata">
+            <source src="/static/uploads/{{ p.media_file }}" type="video/{{ p.media_file.split('.')[-1] }}">
+          </video>
         {% else %}
           <img class="product-media" src="/static/uploads/{{ p.media_file }}" alt="{{ p.title }}"/>
         {% endif %}

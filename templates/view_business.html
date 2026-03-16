@@ -164,7 +164,9 @@
             {% if p.media_type == 'image' %}
               <img src="/static/uploads/{{ p.media_file }}" alt="{{ p.title }}" loading="lazy"/>
             {% elif p.media_type == 'video' %}
-              <video src="/static/uploads/{{ p.media_file }}" muted loop autoplay playsinline></video>
+              <video muted loop autoplay playsinline preload="metadata">
+                <source src="/static/uploads/{{ p.media_file }}" type="video/{{ p.media_file.split('.')[-1] }}">
+              </video>
             {% else %}
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             {% endif %}
