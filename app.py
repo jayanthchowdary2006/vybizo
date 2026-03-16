@@ -14,12 +14,21 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.secret_key = "vybizo_secret_2025"
 
-DB_PATH       = "users.db"
-UPLOAD_FOLDER = os.path.join("static", "uploads")
-ALLOWED_EXT   = {"png", "jpg", "jpeg", "gif", "mp4", "mov", "webm"}
+# Vercel Fix: Use /tmp/ for SQLite as the main directory is Read-Only
+if os.environ.get("VERCEL"):
+    DB_PATH = "/tmp/users.db"
+    UPLOAD_FOLDER = "/tmp/uploads"
+else:
+    DB_PATH = "users.db"
+    UPLOAD_FOLDER = os.path.join("static", "uploads")
+
+ALLOWED_EXT = {"png", "jpg", "jpeg", "gif", "mp4", "mov", "webm"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+if not os.environ.get("VERCEL"):
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -70,6 +79,9 @@ def init_db():
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users(user_id))""")
         c.commit()
+
+# Initialize database on startup (Required for Serverless)
+init_db()
 
 # ── AUTH ──────────────────────────────────────────────────────
 
