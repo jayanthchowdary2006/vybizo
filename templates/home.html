@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vybizo — Marketplace</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',sans-serif;min-height:100vh;background:#07000f;color:#fff;}
+    .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 15% 40%,#1a0533 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,#001a3d 0%,transparent 55%),radial-gradient(ellipse at 55% 85%,#0d2200 0%,transparent 55%),#07000f;animation:bgShift 10s ease-in-out infinite alternate;}
+    @keyframes bgShift{from{filter:hue-rotate(0deg);}to{filter:hue-rotate(20deg) brightness(1.1);}}
+    .floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+    .floater{position:absolute;border-radius:22%;display:flex;align-items:center;justify-content:center;opacity:.1;animation:bob ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-35px) rotate(180deg);}}
+    .f1{left:2%;top:15%;width:44px;height:44px;background:#1877F2;animation-duration:7s;animation-delay:-1s;}
+    .f2{left:88%;top:55%;width:36px;height:36px;background:#1877F2;animation-duration:9s;animation-delay:-4s;}
+    .i1{left:75%;top:15%;width:50px;height:50px;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);animation-duration:8s;animation-delay:-3s;}
+    .i2{left:10%;top:70%;width:40px;height:40px;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);animation-duration:10s;animation-delay:-6s;}
+    .w1{left:50%;top:85%;width:46px;height:46px;background:#25D366;animation-duration:9s;animation-delay:-2s;}
+    .w2{left:93%;top:30%;width:34px;height:34px;background:#25D366;animation-duration:6s;animation-delay:-5s;}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:rgba(7,0,15,0.85);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+    .nav-pills{display:flex;gap:8px;flex-wrap:wrap;}
+    .sp{display:flex;align-items:center;gap:5px;padding:4px 11px 4px 8px;border-radius:99px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#fff;}
+    .sp-fb{background:#1877F2;}.sp-ig{background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);}.sp-wa{background:#25D366;}
+    .nav-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+    .nav-btn{padding:7px 14px;border-radius:99px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);transition:all 0.2s;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
+    .nav-btn:hover{background:rgba(168,85,247,0.25);border-color:rgba(168,85,247,0.5);}
+    .nav-btn.primary{background:linear-gradient(135deg,#7c3aed,#a855f7);border:none;box-shadow:0 4px 16px rgba(168,85,247,0.35);}
+    .nav-btn.primary:hover{box-shadow:0 6px 24px rgba(168,85,247,0.55);transform:translateY(-1px);}
+
+    /* VYBIZO NAV BRAND */
+    .vybizo-nav-brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:3px;text-decoration:none;display:inline-flex;gap:1px;animation:navGlow 3s ease-in-out infinite alternate;}
+    @keyframes navGlow{from{filter:brightness(1);}to{filter:brightness(1.3) drop-shadow(0 0 12px rgba(255,110,247,0.6));}}
+    .vybizo-nav-brand .lV{color:#ff6ef7;-webkit-text-stroke:1px #ff00e5;text-shadow:0 0 12px rgba(255,110,247,0.9),0 2px 0 rgba(180,0,160,0.5);}
+    .vybizo-nav-brand .lY{color:#ffb347;-webkit-text-stroke:1px #ff8c00;text-shadow:0 0 12px rgba(255,179,71,0.9),0 2px 0 rgba(180,90,0,0.5);}
+    .vybizo-nav-brand .lB{color:#7fffff;-webkit-text-stroke:1px #00d4d4;text-shadow:0 0 12px rgba(127,255,255,0.9),0 2px 0 rgba(0,130,130,0.5);}
+    .vybizo-nav-brand .lI{color:#ff6b9d;-webkit-text-stroke:1px #ff0055;text-shadow:0 0 12px rgba(255,107,157,0.9),0 2px 0 rgba(160,0,50,0.5);}
+    .vybizo-nav-brand .lZ{color:#a8ff6e;-webkit-text-stroke:1px #5aff00;text-shadow:0 0 12px rgba(168,255,110,0.9),0 2px 0 rgba(40,130,0,0.5);}
+    .vybizo-nav-brand .lO{color:#6eb5ff;-webkit-text-stroke:1px #007aff;text-shadow:0 0 12px rgba(110,181,255,0.9),0 2px 0 rgba(0,60,160,0.5);}
+
+    /* SEARCH */
+    .search-wrap{position:relative;z-index:10;padding:28px 24px 16px;max-width:700px;margin:0 auto;}
+    .search-box{position:relative;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;box-shadow:0 0 40px rgba(168,85,247,0.1);}
+    .search-box input{width:100%;padding:16px 110px 16px 52px;background:transparent;border:none;outline:none;color:#fff;font-size:15px;font-family:'DM Sans',sans-serif;}
+    .search-box input::placeholder{color:rgba(255,255,255,0.28);}
+    .search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:0.4;pointer-events:none;}
+    .search-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);padding:8px 18px;border-radius:10px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,#7c3aed,#a855f7);transition:box-shadow 0.2s;}
+    .search-btn:hover{box-shadow:0 4px 16px rgba(168,85,247,0.5);}
+
+    /* SEARCH FEEDBACK */
+    .search-status{max-width:700px;margin:0 auto;padding:0 24px 12px;position:relative;z-index:10;}
+    .search-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;font-size:13px;font-weight:600;font-family:'Syne',sans-serif;}
+    .search-tag.found{background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.3);color:#c084fc;}
+    .search-tag.not-found{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;}
+    .search-tag .clear-btn{cursor:pointer;opacity:0.6;font-size:16px;line-height:1;transition:opacity 0.2s;text-decoration:none;color:inherit;}
+    .search-tag .clear-btn:hover{opacity:1;}
+
+    /* SUGGESTIONS */
+    .suggestions{position:absolute;top:calc(100% + 6px);left:0;right:0;background:rgba(20,5,35,0.97);border:1px solid rgba(255,255,255,0.12);border-radius:14px;overflow:hidden;display:none;z-index:999;backdrop-filter:blur(20px);}
+    .suggestion-item{padding:12px 16px;font-size:14px;color:rgba(255,255,255,0.8);cursor:pointer;transition:background 0.15s;display:flex;justify-content:space-between;}
+    .suggestion-item:hover{background:rgba(168,85,247,0.18);}
+    .suggestion-item span{color:#c084fc;font-size:13px;}
+    .no-suggestion{padding:14px 16px;font-size:13px;color:rgba(255,255,255,0.4);text-align:center;}
+
+    /* SECTION TITLE */
+    .section-title{max-width:1100px;margin:0 auto;padding:8px 24px 16px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;position:relative;z-index:10;}
+
+    /* GRID */
+    .grid{max-width:1100px;margin:0 auto;padding:0 24px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;position:relative;z-index:10;}
+    .product-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:18px;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s,border-color 0.25s;cursor:pointer;text-decoration:none;color:inherit;display:block;}
+    .product-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(168,85,247,0.22);border-color:rgba(168,85,247,0.35);}
+    .card-media{width:100%;height:200px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    .card-media img,.card-media video{width:100%;height:100%;object-fit:cover;}
+    .card-body{padding:16px;}
+    .card-biz{font-size:11px;font-weight:700;color:#a855f7;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
+    .card-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;}
+    .card-desc{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-clamp:2;}
+    .card-footer{display:flex;align-items:center;justify-content:space-between;}
+    .card-price{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#c084fc;}
+    .card-location{font-size:11px;color:rgba(255,255,255,0.3);}
+    .card-contact{margin-top:8px;font-size:12px;color:#25D366;display:flex;align-items:center;gap:5px;}
+
+    /* EMPTY STATE */
+    .empty-state{grid-column:1/-1;text-align:center;padding:80px 20px;color:rgba(255,255,255,0.3);}
+    .empty-state .icon{font-size:48px;margin-bottom:16px;opacity:0.4;}
+    .empty-state h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:8px;}
+    .empty-state p{font-size:14px;color:rgba(255,255,255,0.3);}
+
+    /* FLASH */
+    .flash-wrap{max-width:700px;margin:12px auto 0;padding:0 24px;position:relative;z-index:10;}
+    .flash{border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:10px;}
+    .flash.error{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);}
+    .flash.success{background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.3);}
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="floaters">
+  <div class="floater f1"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+  <div class="floater f2"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+  <div class="floater i1"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg></div>
+  <div class="floater i2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg></div>
+  <div class="floater w1"><svg width="23" height="23" viewBox="0 0 24 24" fill="white"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+  <div class="floater w2"><svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+</div>
+
+<nav>
+  <a href="/home" class="vybizo-nav-brand"><span class="lV">V</span><span class="lY">Y</span><span class="lB">B</span><span class="lI">I</span><span class="lZ">Z</span><span class="lO">O</span></a>
+  <div class="nav-pills">
+    <div class="sp sp-fb"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>Facebook</div>
+    <div class="sp sp-ig"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>Instagram</div>
+    <div class="sp sp-wa"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>WhatsApp</div>
+  </div>
+  <div class="nav-right">
+    <a href="/product/add" class="nav-btn primary">+ Add Product</a>
+    <a href="/profile" class="nav-btn">👤 Profile</a>
+    <a href="/logout" class="nav-btn">Log out</a>
+  </div>
+</nav>
+
+<!-- Search -->
+<div class="search-wrap">
+  <form method="GET" action="/home" id="searchForm">
+    <div class="search-box" style="position:relative;">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" name="q" id="searchInput" placeholder="Search products, businesses, categories…" autocomplete="off"/>
+      <button type="submit" class="search-btn">Search</button>
+      <div class="suggestions" id="suggestions"></div>
+    </div>
+  </form>
+</div>
+
+<!-- Search status shown by JS -->
+<div class="search-status" id="searchStatus"></div>
+
+<div class="section-title" id="sectionTitle">All Products</div>
+
+<!-- Product Grid — populated by JS from /api/search or /api/products -->
+<div class="grid" id="productGrid">
+  <div class="empty-state">
+    <div class="icon">🛍️</div>
+    <h3>No products yet</h3>
+    <p>Be the first to list a product on Vybizo!</p>
+  </div>
+</div>
+
+<script>
+const input    = document.getElementById('searchInput');
+const sugg     = document.getElementById('suggestions');
+const grid     = document.getElementById('productGrid');
+const title    = document.getElementById('sectionTitle');
+const statusEl = document.getElementById('searchStatus');
+
+/* ── build one product card ── */
+function buildCard(p) {
+  let media = `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
+  if (p.media_file && p.media_type === 'image') media = `<img src="/static/uploads/${p.media_file}" alt="${p.title}" loading="lazy"/>`;
+  if (p.media_file && p.media_type === 'video') media = `<video src="/static/uploads/${p.media_file}" muted loop autoplay playsinline></video>`;
+  const contact = p.contact_number ? `<div class="card-contact"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a2 2 0 011.72-2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6z"/></svg>${p.contact_number}</div>` : '';
+  return `<a href="/business/${p.user_id}" class="product-card">
+    <div class="card-media">${media}</div>
+    <div class="card-body">
+      <div class="card-biz">${p.business_name||''}</div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.description||''}</div>
+      <div class="card-footer">
+        <div class="card-price">₹${parseFloat(p.price).toFixed(2)}</div>
+        <div class="card-location">📍 ${p.city||''}</div>
+      </div>${contact}
+    </div></a>`;
+}
+
+/* ── render results ── */
+function renderProducts(products, query) {
+  if (!products || products.length === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="icon">🔍</div>
+      <h3>No results found</h3>
+      <p>${query ? `Nothing matched "<strong>${query}</strong>" — try a different keyword.` : 'No products listed yet. Be the first to add one!'}</p>
+    </div>`;
+    if (query) {
+      statusEl.innerHTML = `<span class="search-tag not-found">❌ No results for "${query}" <a class="clear-btn" href="/home">✕</a></span>`;
+      title.textContent = `No results for "${query}"`;
+    } else {
+      statusEl.innerHTML = '';
+      title.textContent = 'All Products';
+    }
+    return;
+  }
+  grid.innerHTML = products.map(buildCard).join('');
+  if (query) {
+    statusEl.innerHTML = `<span class="search-tag found">✓ ${products.length} result${products.length>1?'s':''} for "${query}" <a class="clear-btn" href="/home">✕</a></span>`;
+    title.textContent = `Results for "${query}"`;
+  } else {
+    statusEl.innerHTML = '';
+    title.textContent = `All Products (${products.length})`;
+  }
+}
+
+/* ── load all products on page load ── */
+async function loadAll() {
+  try {
+    const r = await fetch('/api/products');
+    const d = await r.json();
+    renderProducts(d, '');
+  } catch(e) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">⚡</div><h3>Run Flask first</h3><p>Open terminal → python app.py → visit http://127.0.0.1:5000</p></div>';
+  }
+}
+loadAll();
+
+/* ── live search suggestions ── */
+let debounceTimer;
+input.addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  const q = input.value.trim();
+  if (q.length < 2) { sugg.style.display='none'; return; }
+  debounceTimer = setTimeout(async () => {
+    try {
+      const r = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+      const d = await r.json();
+      if (!d.length) {
+        sugg.innerHTML = `<div class="no-suggestion">No products found for "${q}"</div>`;
+        sugg.style.display = 'block';
+        return;
+      }
+      sugg.innerHTML = d.map(p => `<div class="suggestion-item" onclick="doSearch('${p.title.replace(/'/g,"\\'")}')">
+        ${p.title} <span>₹${p.price} · ${p.business_name}</span>
+      </div>`).join('');
+      sugg.style.display = 'block';
+    } catch(e) { sugg.style.display='none'; }
+  }, 250);
+});
+
+/* ── full search on form submit ── */
+document.getElementById('searchForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const q = input.value.trim();
+  sugg.style.display = 'none';
+  if (!q) { loadAll(); return; }
+  try {
+    const r = await fetch(`/api/search?q=${encodeURIComponent(q)}&full=1`);
+    const d = await r.json();
+    renderProducts(d, q);
+  } catch(e) {}
+});
+
+function doSearch(term) {
+  input.value = term;
+  sugg.style.display = 'none';
+  document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+}
+
+document.addEventListener('click', e => { if (!e.target.closest('.search-box')) sugg.style.display='none'; });
+</script>
+</body>
+</html>

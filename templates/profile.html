@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vybizo — My Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',sans-serif;min-height:100vh;background:#07000f;color:#fff;}
+    .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 20% 40%,#1a0533 0%,transparent 55%),radial-gradient(ellipse at 80% 60%,#001a3d 0%,transparent 55%),#07000f;animation:bgShift 10s ease-in-out infinite alternate;}
+    @keyframes bgShift{from{filter:hue-rotate(0deg);}to{filter:hue-rotate(20deg) brightness(1.1);}}
+    .floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+    .floater{position:absolute;border-radius:22%;display:flex;align-items:center;justify-content:center;opacity:.12;animation:bob ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-35px) rotate(180deg);}}
+    .f1{left:5%;top:20%;width:44px;height:44px;background:#1877F2;animation-duration:7s;animation-delay:-2s;}
+    .i1{left:80%;top:50%;width:48px;height:48px;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);animation-duration:9s;animation-delay:-4s;}
+    .w1{left:50%;top:80%;width:40px;height:40px;background:#25D366;animation-duration:8s;animation-delay:-1s;}
+
+    nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:rgba(7,0,15,0.85);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 24px;display:flex;align-items:center;gap:12px;}
+    .nav-right{margin-left:auto;display:flex;gap:10px;}
+    .nav-btn{padding:7px 14px;border-radius:99px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);transition:all 0.2s;display:inline-flex;align-items:center;gap:5px;}
+    .nav-btn:hover{background:rgba(168,85,247,0.25);border-color:rgba(168,85,247,0.5);}
+
+    /* VYBIZO NAV BRAND */
+    .vybizo-nav-brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:3px;text-decoration:none;display:inline-flex;gap:1px;animation:navGlow 3s ease-in-out infinite alternate;}
+    @keyframes navGlow{from{filter:brightness(1);}to{filter:brightness(1.3) drop-shadow(0 0 12px rgba(255,110,247,0.6));}}
+    .vybizo-nav-brand .lV{color:#ff6ef7;-webkit-text-stroke:1px #ff00e5;text-shadow:0 0 12px rgba(255,110,247,0.9);}
+    .vybizo-nav-brand .lY{color:#ffb347;-webkit-text-stroke:1px #ff8c00;}
+    .vybizo-nav-brand .lB{color:#7fffff;-webkit-text-stroke:1px #00d4d4;text-shadow:0 0 12px rgba(127,255,255,0.9);}
+    .vybizo-nav-brand .lI{color:#ff6b9d;-webkit-text-stroke:1px #ff0055;}
+    .vybizo-nav-brand .lZ{color:#a8ff6e;-webkit-text-stroke:1px #5aff00;text-shadow:0 0 12px rgba(168,255,110,0.9);}
+    .vybizo-nav-brand .lO{color:#6eb5ff;-webkit-text-stroke:1px #007aff;text-shadow:0 0 12px rgba(110,181,255,0.9);}
+
+    main{position:relative;z-index:10;max-width:720px;margin:0 auto;padding:36px 20px 60px;}
+
+    .card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:24px;padding:32px;margin-bottom:18px;animation:slideUp 0.6s cubic-bezier(0.22,1,0.36,1) both;}
+    @keyframes slideUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+    .card:nth-child(2){animation-delay:0.08s;}.card:nth-child(3){animation-delay:0.16s;}
+
+    .profile-header{display:flex;align-items:center;gap:18px;margin-bottom:26px;flex-wrap:wrap;}
+    .avatar-ring{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#ec4899,#25D366);padding:3px;animation:hueSpin 6s linear infinite;flex-shrink:0;}
+    @keyframes hueSpin{to{filter:hue-rotate(360deg);}}
+    .avatar-inner{width:100%;height:100%;border-radius:50%;background:#1a0033;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#fff;}
+    .profile-info h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:3px;}
+    .profile-info p{font-size:13px;color:rgba(255,255,255,0.4);}
+    .uid-badge{display:inline-block;margin-top:6px;padding:3px 12px;border-radius:99px;background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.25);font-size:12px;color:#c084fc;font-family:'Syne',sans-serif;font-weight:700;}
+
+    .section-label{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#a855f7;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+    .section-label::after{content:'';flex:1;height:1px;background:rgba(168,85,247,0.2);}
+
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;}
+    .info-item label{display:block;font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:5px;}
+    .info-item p{font-size:14px;color:#fff;font-weight:500;}
+
+    .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .action-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:18px;text-decoration:none;transition:transform 0.2s,border-color 0.2s,background 0.2s;display:flex;flex-direction:column;gap:7px;}
+    .action-card:hover{transform:translateY(-4px);border-color:rgba(168,85,247,0.35);background:rgba(168,85,247,0.08);}
+    .action-icon{font-size:22px;}
+    .action-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;}
+    .action-desc{font-size:12px;color:rgba(255,255,255,0.38);}
+
+    /* Loading state */
+    .loading{text-align:center;padding:40px;color:rgba(255,255,255,0.3);font-size:14px;}
+    .spinner{display:inline-block;width:24px;height:24px;border:2px solid rgba(192,132,252,0.2);border-top-color:#c084fc;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:10px;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="floaters">
+  <div class="floater f1"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+  <div class="floater i1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg></div>
+  <div class="floater w1"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+</div>
+
+<nav>
+  <a href="/home" class="vybizo-nav-brand"><span class="lV">V</span><span class="lY">Y</span><span class="lB">B</span><span class="lI">I</span><span class="lZ">Z</span><span class="lO">O</span></a>
+  <div class="nav-right">
+    <a href="/home" class="nav-btn">← Back to Market</a>
+    <a href="/logout" class="nav-btn">Log Out</a>
+  </div>
+</nav>
+
+<main>
+  <!-- User Card -->
+  <div class="card" id="userCard">
+    <div class="loading"><div class="spinner"></div><br>Loading your profile…</div>
+  </div>
+
+  <!-- Actions Card -->
+  <div class="card">
+    <div class="section-label">Quick Actions</div>
+    <div class="action-grid">
+      <a href="/business/create" class="action-card">
+        <div class="action-icon">🏪</div>
+        <div class="action-title">Business Profile</div>
+        <div class="action-desc">Create or edit your shop</div>
+      </a>
+      <a href="/product/add" class="action-card">
+        <div class="action-icon">➕</div>
+        <div class="action-title">Add Product</div>
+        <div class="action-desc">List photos, videos & price</div>
+      </a>
+      <a href="/product/my" class="action-card">
+        <div class="action-icon">📦</div>
+        <div class="action-title">My Products</div>
+        <div class="action-desc">Manage your listings</div>
+      </a>
+      <a href="/home" class="action-card">
+        <div class="action-icon">🛒</div>
+        <div class="action-title">Marketplace</div>
+        <div class="action-desc">Browse all products</div>
+      </a>
+    </div>
+  </div>
+</main>
+
+<script>
+/* Load profile info from Flask API */
+async function loadProfile() {
+  try {
+    const r = await fetch('/api/profile');
+    const d = await r.json();
+    const card = document.getElementById('userCard');
+    const initial = (d.name || 'U')[0].toUpperCase();
+    card.innerHTML = `
+      <div class="profile-header">
+        <div class="avatar-ring"><div class="avatar-inner">${initial}</div></div>
+        <div class="profile-info">
+          <h2>${d.name || '—'}</h2>
+          <p>${d.mobile ? '+91 ' + d.mobile : ''}</p>
+          <div class="uid-badge">@${d.user_id || ''}</div>
+        </div>
+      </div>
+      <div class="section-label">Account Details</div>
+      <div class="info-grid">
+        <div class="info-item"><label>Full Name</label><p>${d.name || '—'}</p></div>
+        <div class="info-item"><label>Vybizo ID</label><p>@${d.user_id || '—'}</p></div>
+        <div class="info-item"><label>Mobile</label><p>+91 ${d.mobile || '—'}</p></div>
+        <div class="info-item"><label>Joined</label><p>${d.created_at ? d.created_at.substring(0,10) : '—'}</p></div>
+      </div>
+      ${d.business ? `
+      <div class="section-label">Business</div>
+      <div class="info-grid">
+        <div class="info-item"><label>Business Name</label><p>${d.business.business_name}</p></div>
+        <div class="info-item"><label>Category</label><p>${d.business.category}</p></div>
+        <div class="info-item"><label>City</label><p>${d.business.city}</p></div>
+        <div class="info-item"><label>Contact</label><p>${d.business.contact_number || '—'}</p></div>
+      </div>` : `<p style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:8px;">No business profile yet. <a href="/business/create" style="color:#c084fc;">Create one →</a></p>`}`;
+  } catch(e) {
+    document.getElementById('userCard').innerHTML = '<div style="padding:20px;text-align:center;color:rgba(255,255,255,0.4);font-size:13px;">Profile loads when Flask is running.<br><a href="/" style="color:#c084fc;">Go to login</a></div>';
+  }
+}
+loadProfile();
+</script>
+</body>
+</html>
