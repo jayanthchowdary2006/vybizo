@@ -33,17 +33,12 @@
     .meaning-wrap{min-height:22px;margin:8px 0 18px;text-align:center;}
     #meaning{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.45);border-right:2px solid #c084fc;padding-right:2px;animation:cursorBlink .75s step-end infinite;}
     @keyframes cursorBlink{0%,100%{border-color:#c084fc;}50%{border-color:transparent;}}
-    .step-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px;}
-    .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);}
-    .dot.active{background:#c084fc;box-shadow:0 0 8px rgba(192,132,252,.6);}
-    .dot.done{background:#22c55e;}
     .section-title{text-align:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px;}
     label{display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,.45);letter-spacing:.7px;text-transform:uppercase;margin-bottom:6px;}
     .field{margin-bottom:15px;}
     .input-wrap{position:relative;}
     .ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.3;pointer-events:none;}
-    input[type=text],input[type=tel],input[type=password]{width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s,box-shadow .2s;}
-    input.has-ico{padding-left:40px;}
+    input[type=text],input[type=tel]{width:100%;padding:11px 14px 11px 40px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s,box-shadow .2s;}
     input::placeholder{color:rgba(255,255,255,.22);}
     input:focus{border-color:rgba(192,132,252,.7);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px rgba(192,132,252,.15);}
     .prefix-wrap{display:flex;gap:8px;align-items:center;}
@@ -51,23 +46,11 @@
     .btn{position:relative;overflow:hidden;width:100%;padding:13px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(135deg,#ff6ef7,#a855f7,#007aff);background-size:200% 200%;background-position:left center;transition:background-position .4s,transform .15s,box-shadow .3s;box-shadow:0 4px 24px rgba(168,85,247,.5);}
     .btn:hover{background-position:right center;box-shadow:0 6px 32px rgba(168,85,247,.75);transform:translateY(-2px);}
     .btn:active{transform:scale(.97);}
-    .forgot-link{text-align:right;margin-top:-8px;margin-bottom:14px;font-size:12px;}
-    .forgot-link a{color:#a78bfa;text-decoration:none;}
-    .forgot-link a:hover{text-decoration:underline;}
-    .divider{display:flex;align-items:center;gap:10px;margin:16px 0 0;color:rgba(255,255,255,.15);font-size:12px;}
-    .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
     .link-row{text-align:center;margin-top:13px;font-size:13px;color:rgba(255,255,255,.35);}
     .link-row a{color:#c084fc;text-decoration:none;font-weight:600;}
-    .link-row a:hover{text-decoration:underline;}
-    .key-box{background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);border-radius:14px;padding:18px;text-align:center;margin-bottom:18px;}
-    .key-label{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-    .key-value{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:10px;background:linear-gradient(135deg,#ff6ef7,#ffd166,#55aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .key-note{font-size:11px;color:rgba(255,255,255,.3);margin-top:6px;}
-    .strength-bar{height:3px;border-radius:99px;background:rgba(255,255,255,.08);margin-top:6px;overflow:hidden;}
-    .strength-fill{height:100%;width:0;border-radius:99px;transition:width .3s,background .3s;}
     .flash{border-radius:10px;padding:9px 13px;font-size:13px;margin-bottom:14px;}
-    .flash.error{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);}
-    .flash.success{background:rgba(34,197,94,.15);color:#86efac;border:1px solid rgba(34,197,94,.3);}
+    .flash.error{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);}
+    .flash.success{background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.3);}
     .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:rippleAnim .55s ease-out forwards;pointer-events:none;}
     @keyframes rippleAnim{to{transform:scale(4.5);opacity:0;}}
   </style>
@@ -83,10 +66,15 @@
     <div class="vybizo-word"><span class="lV">V</span><span class="lY">Y</span><span class="lB">B</span><span class="lI">I</span><span class="lZ">Z</span><span class="lO">O</span></div>
     <div class="meaning-wrap"><span id="meaning"></span></div>
   </div>
-  <div class="step-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
   <div class="section-title">— Forgot Password —</div>
   
-    <div class="flash "></div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
   
   <p style="text-align:center;font-size:13px;color:rgba(255,255,255,.4);margin-bottom:18px;">Enter your registered mobile number and we will send you a security key to reset your password.</p>
   <form method="POST" action="/forgot">

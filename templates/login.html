@@ -1,127 +1,3 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vybizo — Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'DM Sans',sans-serif;min-height:100vh;background:#07000f;display:flex;align-items:center;justify-content:center;padding:30px 16px;}
-    .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 15% 50%,#1a0533 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,#001a3d 0%,transparent 55%),#07000f;animation:bgShift 10s ease-in-out infinite alternate;}
-    @keyframes bgShift{from{filter:hue-rotate(0deg);}to{filter:hue-rotate(25deg) brightness(1.12);}}
-    .floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
-    .floater{position:absolute;border-radius:22%;opacity:.12;animation:bob ease-in-out infinite;}
-    @keyframes bob{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-34px) rotate(180deg);}}
-    .f1{left:4%;top:12%;width:48px;height:48px;background:#1877F2;animation-duration:7s;animation-delay:-1s;}
-    .f2{left:80%;top:60%;width:36px;height:36px;background:#1877F2;animation-duration:9s;animation-delay:-4s;}
-    .i1{left:26%;top:70%;width:50px;height:50px;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);animation-duration:8s;animation-delay:-3s;}
-    .w1{left:90%;top:30%;width:42px;height:42px;background:#25D366;animation-duration:6s;animation-delay:-1s;}
-    .card{position:relative;z-index:10;width:min(420px,100%);background:rgba(255,255,255,.06);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:36px 36px 30px;box-shadow:0 0 80px rgba(168,85,247,.18);animation:slideUp .65s cubic-bezier(.22,1,.36,1) both;overflow:hidden;}
-    @keyframes slideUp{from{opacity:0;transform:translateY(36px) scale(.96);}to{opacity:1;transform:translateY(0) scale(1);}}
-    .vybizo-word{font-family:'Syne',sans-serif;font-size:44px;font-weight:800;letter-spacing:6px;display:flex;justify-content:center;animation:wordGlow 3.5s ease-in-out 1.2s infinite alternate;}
-    @keyframes wordGlow{from{filter:brightness(1);}to{filter:brightness(1.28) drop-shadow(0 0 16px rgba(255,110,247,.45));}}
-    .vybizo-word span{opacity:0;animation:letterDrop .55s cubic-bezier(.22,1,.36,1) forwards;}
-    @keyframes letterDrop{0%{opacity:0;transform:translateY(-55px) scale(1.35);}55%{opacity:1;transform:translateY(6px) scale(.96);}75%{transform:translateY(-3px);}100%{opacity:1;transform:translateY(0) scale(1);}}
-    .vybizo-word span:nth-child(1){animation-delay:.08s;}.vybizo-word span:nth-child(2){animation-delay:.18s;}.vybizo-word span:nth-child(3){animation-delay:.28s;}.vybizo-word span:nth-child(4){animation-delay:.38s;}.vybizo-word span:nth-child(5){animation-delay:.48s;}.vybizo-word span:nth-child(6){animation-delay:.58s;}
-    .lV{color:#ff6ef7;-webkit-text-stroke:1.5px #cc00bb;text-shadow:0 0 18px rgba(255,110,247,.95),0 3px 0 #880077;}
-    .lY{color:#ffd166;-webkit-text-stroke:1.5px #dd8800;text-shadow:0 0 18px rgba(255,209,102,.95),0 3px 0 #995500;}
-    .lB{color:#00ffee;-webkit-text-stroke:1.5px #009988;text-shadow:0 0 18px rgba(0,255,238,.95),0 3px 0 #006655;}
-    .lI{color:#ff7eb3;-webkit-text-stroke:1.5px #ee0044;text-shadow:0 0 18px rgba(255,126,179,.95),0 3px 0 #990033;}
-    .lZ{color:#aaff55;-webkit-text-stroke:1.5px #44cc00;text-shadow:0 0 18px rgba(170,255,85,.95),0 3px 0 #227700;}
-    .lO{color:#55aaff;-webkit-text-stroke:1.5px #0055ee;text-shadow:0 0 18px rgba(85,170,255,.95),0 3px 0 #003399;}
-    .meaning-wrap{min-height:22px;margin:8px 0 18px;text-align:center;}
-    #meaning{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.45);border-right:2px solid #c084fc;padding-right:2px;animation:cursorBlink .75s step-end infinite;}
-    @keyframes cursorBlink{0%,100%{border-color:#c084fc;}50%{border-color:transparent;}}
-    .step-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px;}
-    .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);}
-    .dot.active{background:#c084fc;box-shadow:0 0 8px rgba(192,132,252,.6);}
-    .dot.done{background:#22c55e;}
-    .section-title{text-align:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px;}
-    label{display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,.45);letter-spacing:.7px;text-transform:uppercase;margin-bottom:6px;}
-    .field{margin-bottom:15px;}
-    .input-wrap{position:relative;}
-    .ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.3;pointer-events:none;}
-    input[type=text],input[type=tel],input[type=password]{width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s,box-shadow .2s;}
-    input.has-ico{padding-left:40px;}
-    input::placeholder{color:rgba(255,255,255,.22);}
-    input:focus{border-color:rgba(192,132,252,.7);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px rgba(192,132,252,.15);}
-    .prefix-wrap{display:flex;gap:8px;align-items:center;}
-    .prefix{padding:11px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:rgba(255,255,255,.4);font-size:13px;white-space:nowrap;}
-    .btn{position:relative;overflow:hidden;width:100%;padding:13px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(135deg,#ff6ef7,#a855f7,#007aff);background-size:200% 200%;background-position:left center;transition:background-position .4s,transform .15s,box-shadow .3s;box-shadow:0 4px 24px rgba(168,85,247,.5);}
-    .btn:hover{background-position:right center;box-shadow:0 6px 32px rgba(168,85,247,.75);transform:translateY(-2px);}
-    .btn:active{transform:scale(.97);}
-    .forgot-link{text-align:right;margin-top:-8px;margin-bottom:14px;font-size:12px;}
-    .forgot-link a{color:#a78bfa;text-decoration:none;}
-    .forgot-link a:hover{text-decoration:underline;}
-    .divider{display:flex;align-items:center;gap:10px;margin:16px 0 0;color:rgba(255,255,255,.15);font-size:12px;}
-    .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
-    .link-row{text-align:center;margin-top:13px;font-size:13px;color:rgba(255,255,255,.35);}
-    .link-row a{color:#c084fc;text-decoration:none;font-weight:600;}
-    .link-row a:hover{text-decoration:underline;}
-    .key-box{background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);border-radius:14px;padding:18px;text-align:center;margin-bottom:18px;}
-    .key-label{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-    .key-value{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:10px;background:linear-gradient(135deg,#ff6ef7,#ffd166,#55aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .key-note{font-size:11px;color:rgba(255,255,255,.3);margin-top:6px;}
-    .strength-bar{height:3px;border-radius:99px;background:rgba(255,255,255,.08);margin-top:6px;overflow:hidden;}
-    .strength-fill{height:100%;width:0;border-radius:99px;transition:width .3s,background .3s;}
-    .flash{border-radius:10px;padding:9px 13px;font-size:13px;margin-bottom:14px;}
-    .flash.error{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);}
-    .flash.success{background:rgba(34,197,94,.15);color:#86efac;border:1px solid rgba(34,197,94,.3);}
-    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:rippleAnim .55s ease-out forwards;pointer-events:none;}
-    @keyframes rippleAnim{to{transform:scale(4.5);opacity:0;}}
-  </style>
-</head>
-<body>
-<div class="bg"></div>
-<div class="floaters">
-  <div class="floater f1"></div><div class="floater f2"></div>
-  <div class="floater i1"></div><div class="floater w1"></div>
-</div>
-<div class="card">
-  <div style="text-align:center;margin-bottom:4px;">
-    <div class="vybizo-word"><span class="lV">V</span><span class="lY">Y</span><span class="lB">B</span><span class="lI">I</span><span class="lZ">Z</span><span class="lO">O</span></div>
-    <div class="meaning-wrap"><span id="meaning"></span></div>
-  </div>
-  <div style="display:flex;justify-content:center;gap:8px;margin-bottom:18px;">
-    <div style="display:flex;align-items:center;gap:5px;padding:4px 10px 4px 8px;border-radius:99px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#fff;background:#1877F2;"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>Facebook</div>
-    <div style="display:flex;align-items:center;gap:5px;padding:4px 10px 4px 8px;border-radius:99px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>Instagram</div>
-    <div style="display:flex;align-items:center;gap:5px;padding:4px 10px 4px 8px;border-radius:99px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#fff;background:#25D366;"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>WhatsApp</div>
-  </div>
-  <div class="section-title">— Sign In —</div>
-  
-    <div class="flash "></div>
-  
-  <form method="POST" action="/login">
-    <div class="field">
-      <label>Mobile Number</label>
-      <div class="prefix-wrap">
-        <span class="prefix">+91</span>
-        <input type="tel" name="mobile" placeholder="10-digit mobile number" maxlength="10" required/>
-      </div>
-    </div>
-    <div class="field">
-      <label>Password</label>
-      <div class="input-wrap">
-        <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-        <input type="password" name="password" class="has-ico" placeholder="Enter your password" required/>
-      </div>
-    </div>
-    <div class="forgot-link"><a href="/forgot">Forgot password?</a></div>
-    <button type="submit" class="btn">Enter Vybizo</button>
-  </form>
-  <div class="divider">or</div>
-  <div class="link-row" style="margin-top:13px;">New to Vybizo? <a href="/register">Create account</a></div>
-</div>
-<script>
-const phrases=["Vybe · Your Biz · Zero Limits","Where Small Business Meets Social","One Platform · Infinite Possibilities"];
-const el=document.getElementById("meaning");
-if(el){let pi=0,ci=0,del=false;function tick(){const p=phrases[pi];if(!del){ci++;el.textContent=p.slice(0,ci);if(ci===p.length){del=true;setTimeout(tick,2400);return;}setTimeout(tick,60);}else{ci--;el.textContent=p.slice(0,ci);if(ci===0){del=false;pi=(pi+1)%phrases.length;setTimeout(tick,500);return;}setTimeout(tick,30);}}setTimeout(tick,1100);}
-document.querySelectorAll(".btn").forEach(btn=>{btn.addEventListener("click",e=>{const r=document.createElement("span");const rect=btn.getBoundingClientRect();const s=Math.max(rect.width,rect.height);r.className="ripple";r.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-rect.left-s/2}px;top:${e.clientY-rect.top-s/2}px`;btn.appendChild(r);setTimeout(()=>r.remove(),600);});});
-</script>
-</body>
-=======
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -352,6 +228,7 @@ document.querySelectorAll(".btn").forEach(btn=>{btn.addEventListener("click",e=>
         <input type="password" name="password" placeholder="Enter your password" required/>
       </div>
     </div>
+      <div class="forgot-link"><a href="/forgot" style="color: #c084fc; text-decoration: none; font-size: 12px; display: block; text-align: right; margin-bottom: 15px;">Forgot password?</a></div>
     <button type="submit" class="btn">Enter Vybizo</button>
   </form>
 
@@ -411,5 +288,4 @@ document.querySelectorAll('.btn').forEach(btn => {
 });
 </script>
 </body>
->>>>>>> 85f5c79fac637a86cd1c4befe103d02d972cb76e
 </html>

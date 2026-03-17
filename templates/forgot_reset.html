@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vybizo — Set Password</title>
+  <title>Vybizo — Set New Password</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -33,41 +33,22 @@
     .meaning-wrap{min-height:22px;margin:8px 0 18px;text-align:center;}
     #meaning{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.45);border-right:2px solid #c084fc;padding-right:2px;animation:cursorBlink .75s step-end infinite;}
     @keyframes cursorBlink{0%,100%{border-color:#c084fc;}50%{border-color:transparent;}}
-    .step-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px;}
-    .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);}
-    .dot.active{background:#c084fc;box-shadow:0 0 8px rgba(192,132,252,.6);}
-    .dot.done{background:#22c55e;}
     .section-title{text-align:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px;}
     label{display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,.45);letter-spacing:.7px;text-transform:uppercase;margin-bottom:6px;}
     .field{margin-bottom:15px;}
     .input-wrap{position:relative;}
     .ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.3;pointer-events:none;}
-    input[type=text],input[type=tel],input[type=password]{width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s,box-shadow .2s;}
-    input.has-ico{padding-left:40px;}
+    input[type=password]{width:100%;padding:11px 14px 11px 40px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s,box-shadow .2s;}
     input::placeholder{color:rgba(255,255,255,.22);}
     input:focus{border-color:rgba(192,132,252,.7);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px rgba(192,132,252,.15);}
-    .prefix-wrap{display:flex;gap:8px;align-items:center;}
-    .prefix{padding:11px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:rgba(255,255,255,.4);font-size:13px;white-space:nowrap;}
+    .strength-bar{height:3px;border-radius:99px;background:rgba(255,255,255,.08);margin-top:6px;overflow:hidden;}
+    .strength-fill{height:100%;width:0;border-radius:99px;transition:width .3s,background .3s;}
     .btn{position:relative;overflow:hidden;width:100%;padding:13px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;border:none;border-radius:12px;cursor:pointer;background:linear-gradient(135deg,#ff6ef7,#a855f7,#007aff);background-size:200% 200%;background-position:left center;transition:background-position .4s,transform .15s,box-shadow .3s;box-shadow:0 4px 24px rgba(168,85,247,.5);}
     .btn:hover{background-position:right center;box-shadow:0 6px 32px rgba(168,85,247,.75);transform:translateY(-2px);}
     .btn:active{transform:scale(.97);}
-    .forgot-link{text-align:right;margin-top:-8px;margin-bottom:14px;font-size:12px;}
-    .forgot-link a{color:#a78bfa;text-decoration:none;}
-    .forgot-link a:hover{text-decoration:underline;}
-    .divider{display:flex;align-items:center;gap:10px;margin:16px 0 0;color:rgba(255,255,255,.15);font-size:12px;}
-    .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
-    .link-row{text-align:center;margin-top:13px;font-size:13px;color:rgba(255,255,255,.35);}
-    .link-row a{color:#c084fc;text-decoration:none;font-weight:600;}
-    .link-row a:hover{text-decoration:underline;}
-    .key-box{background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);border-radius:14px;padding:18px;text-align:center;margin-bottom:18px;}
-    .key-label{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-    .key-value{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:10px;background:linear-gradient(135deg,#ff6ef7,#ffd166,#55aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .key-note{font-size:11px;color:rgba(255,255,255,.3);margin-top:6px;}
-    .strength-bar{height:3px;border-radius:99px;background:rgba(255,255,255,.08);margin-top:6px;overflow:hidden;}
-    .strength-fill{height:100%;width:0;border-radius:99px;transition:width .3s,background .3s;}
     .flash{border-radius:10px;padding:9px 13px;font-size:13px;margin-bottom:14px;}
-    .flash.error{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);}
-    .flash.success{background:rgba(34,197,94,.15);color:#86efac;border:1px solid rgba(34,197,94,.3);}
+    .flash.error{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);}
+    .flash.success{background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.3);}
     .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:rippleAnim .55s ease-out forwards;pointer-events:none;}
     @keyframes rippleAnim{to{transform:scale(4.5);opacity:0;}}
   </style>
@@ -83,34 +64,37 @@
     <div class="vybizo-word"><span class="lV">V</span><span class="lY">Y</span><span class="lB">B</span><span class="lI">I</span><span class="lZ">Z</span><span class="lO">O</span></div>
     <div class="meaning-wrap"><span id="meaning"></span></div>
   </div>
-  <div class="step-dots"><div class="dot done"></div><div class="dot done"></div><div class="dot active"></div></div>
-  <div class="section-title">— Step 3 of 3 · Set Password —</div>
+  <div class="section-title">— Set New Password —</div>
   
-    <div class="flash "></div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
   
-  <form method="POST" action="/register/password">
+  <form method="POST" action="/forgot/reset">
     <div class="field">
-      <label>Create Password</label>
+      <label>New Password</label>
       <div class="input-wrap">
         <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-        <input type="password" name="password" id="pwd" class="has-ico" placeholder="Min 6 characters" required oninput="chkStr(this.value)"/>
+        <input type="password" name="password" id="pwd" placeholder="Min 6 characters" required oninput="chkStr(this.value)"/>
       </div>
       <div class="strength-bar"><div class="strength-fill" id="sbar"></div></div>
     </div>
     <div class="field">
-      <label>Confirm Password</label>
+      <label>Confirm New Password</label>
       <div class="input-wrap">
         <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-        <input type="password" name="confirm" class="has-ico" placeholder="Repeat password" required/>
+        <input type="password" name="confirm" placeholder="Repeat password" required/>
       </div>
     </div>
-    <button type="submit" class="btn">Create My Account 🎉</button>
+    <button type="submit" class="btn">Update Password ✓</button>
   </form>
 </div>
 <script>
-function chkStr(v){const b=document.getElementById("sbar");const s=[v.length>=6,/[A-Z]/.test(v),/[0-9]/.test(v),/[^A-Za-z0-9]/.test(v),v.length>=10];const n=s.filter(Boolean).length;b.style.width=(n*20)+"%";b.style.background=["#ef4444","#f97316","#eab308","#22c55e","#10b981"][n-1]||"transparent";}
-</script>
-<script>
+function chkStr(v){const b=document.getElementById("sbar");const s=[v.length>=6,/[A-Z]/.test(v),/[0-9]/.test(v),/[^A-Za-z0-9]/.test(v),v.length>=10];const n=s.filter(Boolean).length;b.style.width=(n*20)+"%";if(n>0)b.style.background=["#ef4444","#f97316","#eab308","#22c55e","#10b981"][n-1];}
 const phrases=["Vybe · Your Biz · Zero Limits","Where Small Business Meets Social","One Platform · Infinite Possibilities"];
 const el=document.getElementById("meaning");
 if(el){let pi=0,ci=0,del=false;function tick(){const p=phrases[pi];if(!del){ci++;el.textContent=p.slice(0,ci);if(ci===p.length){del=true;setTimeout(tick,2400);return;}setTimeout(tick,60);}else{ci--;el.textContent=p.slice(0,ci);if(ci===0){del=false;pi=(pi+1)%phrases.length;setTimeout(tick,500);return;}setTimeout(tick,30);}}setTimeout(tick,1100);}
