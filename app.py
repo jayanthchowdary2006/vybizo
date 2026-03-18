@@ -13,8 +13,20 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.secret_key = "vybizo_secret_2025"
 
-DB_PATH       = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users.db")
-UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "uploads")
+# ─────────────────────────────────────────────────────────────
+# Update: Vercel-friendly database and upload handling
+IS_VERCEL = "VERCEL" in os.environ
+
+if IS_VERCEL:
+    # Vercel has a read-only filesystem except for /tmp
+    DB_PATH = "/tmp/users.db"
+    UPLOAD_FOLDER = "/tmp/uploads"
+    # Note: SQLite on Vercel is NOT persistent across redeploys or timeouts.
+    # For persistent data, use Vercel Postgres or Neon.
+else:
+    DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users.db")
+    UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "uploads")
+
 ALLOWED_EXT   = {"png", "jpg", "jpeg", "gif", "mp4", "mov", "webm"}
 ADMIN_MOBILE  = "9999999999"
 ADMIN_PASS    = "admin123"
@@ -22,7 +34,15 @@ ADMIN_PASS    = "admin123"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024
 app.config["PERMANENT_SESSION_LIFETIME"] = 60 * 60 * 24 * 30
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# Safely create folders
+try:
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+except Exception as e:
+    # Silently handle folder creation errors on read-only systems
+    if not IS_VERCEL:
+        print(f"Error creating folder: {e}")
+
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -585,9 +605,12 @@ def api_profile():
     biz_data = dict(business) if business else None
     return jsonify({**user_data, "business": biz_data})
 
+# Initialize database for both local and serverless environments
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True, port=5500)
+
 
 # This line ensures notif_count API works
 @app.route("/api/notif_count")
