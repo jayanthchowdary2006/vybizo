@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vybizo — My Orders</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:rgba(7,0,15,0.88);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+    .vybizo-nav-brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:3px;text-decoration:none;display:inline-flex;gap:1px;animation:navGlow 3s ease-in-out infinite alternate;}
+    @keyframes navGlow{from{filter:brightness(1);}to{filter:brightness(1.3) drop-shadow(0 0 12px rgba(255,110,247,0.6));}}
+    .lV{color:#ff6ef7;-webkit-text-stroke:1px #cc00bb;}.lY{color:#ffd166;-webkit-text-stroke:1px #dd8800;}
+    .lB{color:#00ffee;-webkit-text-stroke:1px #009988;}.lI{color:#ff7eb3;-webkit-text-stroke:1px #ee0044;}
+    .lZ{color:#aaff55;-webkit-text-stroke:1px #44cc00;}.lO{color:#55aaff;-webkit-text-stroke:1px #0055ee;}
+    .nav-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .nav-btn{padding:7px 14px;border-radius:99px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);transition:all 0.2s;display:inline-flex;align-items:center;gap:5px;}
+    .nav-btn:hover{background:rgba(168,85,247,0.25);border-color:rgba(168,85,247,0.5);}
+    .nav-btn.primary{background:linear-gradient(135deg,#7c3aed,#a855f7);border:none;box-shadow:0 4px 14px rgba(168,85,247,0.4);}
+    .nav-badge{background:#ef4444;color:#fff;border-radius:99px;font-size:10px;font-weight:700;padding:1px 6px;margin-left:2px;}
+    body{font-family:'DM Sans',sans-serif;min-height:100vh;background:#07000f;color:#fff;}
+    .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 15% 40%,#1a0533 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,#001a3d 0%,transparent 55%),radial-gradient(ellipse at 55% 85%,#0d2200 0%,transparent 55%),#07000f;animation:bgShift 10s ease-in-out infinite alternate;}
+    @keyframes bgShift{from{filter:hue-rotate(0deg);}to{filter:hue-rotate(20deg) brightness(1.1);}}
+    .floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+    .floater{position:absolute;border-radius:22%;opacity:.1;animation:bob ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-35px) rotate(180deg);}}
+    .f1{left:2%;top:15%;width:44px;height:44px;background:#1877F2;animation-duration:7s;animation-delay:-1s;}
+    .f2{left:88%;top:55%;width:36px;height:36px;background:#1877F2;animation-duration:9s;animation-delay:-4s;}
+    .i1{left:75%;top:15%;width:50px;height:50px;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);animation-duration:8s;animation-delay:-3s;}
+    .w1{left:50%;top:85%;width:46px;height:46px;background:#25D366;animation-duration:9s;animation-delay:-2s;}
+    main{position:relative;z-index:10;max-width:900px;margin:0 auto;padding:32px 20px 60px;}
+    .card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:28px;margin-bottom:18px;animation:slideUp 0.5s cubic-bezier(0.22,1,0.36,1) both;}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    .section-label{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:18px;background:linear-gradient(135deg,#fff 30%,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .flash{border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:14px;}
+    .flash.error{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);}
+    .flash.success{background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.3);}
+    .btn{position:relative;overflow:hidden;padding:11px 22px;border-radius:12px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,#7c3aed,#a855f7,#ec4899);background-size:200% 200%;background-position:left center;transition:background-position 0.4s,transform 0.15s,box-shadow 0.3s;box-shadow:0 4px 20px rgba(168,85,247,0.4);text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
+    .btn:hover{background-position:right center;box-shadow:0 6px 28px rgba(168,85,247,0.6);transform:translateY(-2px);}
+    .btn-danger{background:linear-gradient(135deg,#991b1b,#ef4444);box-shadow:0 4px 16px rgba(239,68,68,0.3);}
+    .btn-green{background:linear-gradient(135deg,#065f46,#10b981);box-shadow:0 4px 16px rgba(16,185,129,0.3);}
+    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.3);transform:scale(0);animation:rippleAnim 0.55s ease-out forwards;pointer-events:none;}
+    @keyframes rippleAnim{to{transform:scale(4.5);opacity:0;}}</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="floaters">
+  <div class="floater f1"></div><div class="floater f2"></div>
+  <div class="floater i1"></div><div class="floater w1"></div>
+</div>
+<nav>
+  <a href="/home" class="vybizo-nav-brand"><span class="lV">V</span><span class="lY">Y</span><span class="lB">B</span><span class="lI">I</span><span class="lZ">Z</span><span class="lO">O</span></a>
+  <div class="nav-right"><a href="/home" class="nav-btn">← Marketplace</a><a href="/profile" class="nav-btn">Profile</a></div>
+</nav>
+<main>
+<div class="section-label">My Orders</div>
+{% if orders %}
+  {% for o in orders %}
+  <div class="card" style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+    <div style="width:72px;height:72px;border-radius:12px;background:rgba(255,255,255,0.06);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+      {% if o.media_file and o.media_type == 'image' %}<img src="/static/uploads/{{ o.media_file }}" style="width:100%;height:100%;object-fit:cover;"/>
+      {% else %}<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>{% endif %}
+    </div>
+    <div style="flex:1;min-width:200px;">
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:3px;">{{ o.title }}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:8px;">{{ o.business_name }} · Qty: {{ o.quantity }}</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#c084fc;">₹{{ "%.2f"|format(o.total_price) }}</span>
+        {% if o.status == 'delivered' %}<span style="padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.3);">{{ o.status|upper }}</span>
+        {% elif o.status == 'confirmed' %}<span style="padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3);">{{ o.status|upper }}</span>
+        {% elif o.status == 'shipped' %}<span style="padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;background:rgba(56,189,248,0.15);color:#7dd3fc;border:1px solid rgba(56,189,248,0.3);">{{ o.status|upper }}</span>
+        {% elif o.status == 'cancelled' %}<span style="padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);">{{ o.status|upper }}</span>
+        {% else %}<span style="padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;background:rgba(251,191,36,0.15);color:#fde68a;border:1px solid rgba(251,191,36,0.3);">{{ o.status|upper }}</span>{% endif %}
+        <span style="font-size:11px;color:rgba(255,255,255,0.3);">{{ o.created_at[:16] }}</span>
+      </div>
+      {% if o.contact_number %}<div style="margin-top:8px;font-size:12px;color:#25D366;">📞 {{ o.contact_number }}</div>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <div style="text-align:center;padding:80px 20px;color:rgba(255,255,255,0.3);">
+    <div style="font-size:48px;margin-bottom:16px;opacity:0.4;">🛒</div>
+    <p style="font-size:14px;">No orders yet. <a href="/home" style="color:#c084fc;">Browse products</a></p>
+  </div>
+{% endif %}
+</main>
+<script>
+document.querySelectorAll('.btn').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    const r=document.createElement('span');const rect=btn.getBoundingClientRect();
+    const s=Math.max(rect.width,rect.height);r.className='ripple';
+    r.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-rect.left-s/2}px;top:${e.clientY-rect.top-s/2}px`;
+    btn.appendChild(r);setTimeout(()=>r.remove(),600);
+  });
+});
+</script>
+</body>
+</html>

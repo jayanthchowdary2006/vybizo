@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vybizo — Product Detail</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:rgba(7,0,15,0.88);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+    .vybizo-nav-brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:3px;text-decoration:none;display:inline-flex;gap:1px;animation:navGlow 3s ease-in-out infinite alternate;}
+    @keyframes navGlow{from{filter:brightness(1);}to{filter:brightness(1.3) drop-shadow(0 0 12px rgba(255,110,247,0.6));}}
+    .lV{color:#ff6ef7;-webkit-text-stroke:1px #cc00bb;}.lY{color:#ffd166;-webkit-text-stroke:1px #dd8800;}
+    .lB{color:#00ffee;-webkit-text-stroke:1px #009988;}.lI{color:#ff7eb3;-webkit-text-stroke:1px #ee0044;}
+    .lZ{color:#aaff55;-webkit-text-stroke:1px #44cc00;}.lO{color:#55aaff;-webkit-text-stroke:1px #0055ee;}
+    .nav-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .nav-btn{padding:7px 14px;border-radius:99px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);transition:all 0.2s;display:inline-flex;align-items:center;gap:5px;}
+    .nav-btn:hover{background:rgba(168,85,247,0.25);border-color:rgba(168,85,247,0.5);}
+    .nav-btn.primary{background:linear-gradient(135deg,#7c3aed,#a855f7);border:none;box-shadow:0 4px 14px rgba(168,85,247,0.4);}
+    .nav-badge{background:#ef4444;color:#fff;border-radius:99px;font-size:10px;font-weight:700;padding:1px 6px;margin-left:2px;}
+    body{font-family:'DM Sans',sans-serif;min-height:100vh;background:#07000f;color:#fff;}
+    .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 15% 40%,#1a0533 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,#001a3d 0%,transparent 55%),radial-gradient(ellipse at 55% 85%,#0d2200 0%,transparent 55%),#07000f;animation:bgShift 10s ease-in-out infinite alternate;}
+    @keyframes bgShift{from{filter:hue-rotate(0deg);}to{filter:hue-rotate(20deg) brightness(1.1);}}
+    .floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+    .floater{position:absolute;border-radius:22%;opacity:.1;animation:bob ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-35px) rotate(180deg);}}
+    .f1{left:2%;top:15%;width:44px;height:44px;background:#1877F2;animation-duration:7s;animation-delay:-1s;}
+    .f2{left:88%;top:55%;width:36px;height:36px;background:#1877F2;animation-duration:9s;animation-delay:-4s;}
+    .i1{left:75%;top:15%;width:50px;height:50px;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);animation-duration:8s;animation-delay:-3s;}
+    .w1{left:50%;top:85%;width:46px;height:46px;background:#25D366;animation-duration:9s;animation-delay:-2s;}
+    main{position:relative;z-index:10;max-width:900px;margin:0 auto;padding:32px 20px 60px;}
+    .card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:28px;margin-bottom:18px;animation:slideUp 0.5s cubic-bezier(0.22,1,0.36,1) both;}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    .section-label{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:18px;background:linear-gradient(135deg,#fff 30%,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .flash{border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:14px;}
+    .flash.error{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);}
+    .flash.success{background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.3);}
+    .btn{position:relative;overflow:hidden;padding:11px 22px;border-radius:12px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,#7c3aed,#a855f7,#ec4899);background-size:200% 200%;background-position:left center;transition:background-position 0.4s,transform 0.15s,box-shadow 0.3s;box-shadow:0 4px 20px rgba(168,85,247,0.4);text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
+    .btn:hover{background-position:right center;box-shadow:0 6px 28px rgba(168,85,247,0.6);transform:translateY(-2px);}
+    .btn-danger{background:linear-gradient(135deg,#991b1b,#ef4444);box-shadow:0 4px 16px rgba(239,68,68,0.3);}
+    .btn-green{background:linear-gradient(135deg,#065f46,#10b981);box-shadow:0 4px 16px rgba(16,185,129,0.3);}
+    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.3);transform:scale(0);animation:rippleAnim 0.55s ease-out forwards;pointer-events:none;}
+    @keyframes rippleAnim{to{transform:scale(4.5);opacity:0;}}</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="floaters">
+  <div class="floater f1"></div><div class="floater f2"></div>
+  <div class="floater i1"></div><div class="floater w1"></div>
+</div>
+<nav>
+  <a href="/home" class="vybizo-nav-brand"><span class="lV">V</span><span class="lY">Y</span><span class="lB">B</span><span class="lI">I</span><span class="lZ">Z</span><span class="lO">O</span></a>
+  <div class="nav-right"><a href="/home" class="nav-btn">← Marketplace</a><a href="/orders/my" class="nav-btn">My Orders</a><a href="/profile" class="nav-btn">Profile</a></div>
+</nav>
+<main>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}{% for cat,msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}{% endif %}
+{% endwith %}
+
+<div class="card" style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;">
+  <!-- Media -->
+  <div style="width:min(320px,100%);border-radius:16px;overflow:hidden;background:rgba(255,255,255,0.04);min-height:220px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+    {% if product.media_file and product.media_type == 'image' %}
+      <img src="/static/uploads/{{ product.media_file }}" style="width:100%;height:280px;object-fit:cover;" alt="{{ product.title }}"/>
+    {% elif product.media_file and product.media_type == 'video' %}
+      <video src="/static/uploads/{{ product.media_file }}" controls style="width:100%;max-height:280px;"></video>
+    {% else %}
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    {% endif %}
+  </div>
+
+  <!-- Details -->
+  <div style="flex:1;min-width:240px;">
+    <div style="font-size:11px;font-weight:700;color:#a855f7;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">{{ product.business_name }}</div>
+    <h1 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:10px;">{{ product.title }}</h1>
+    <div style="font-size:28px;font-family:'Syne',sans-serif;font-weight:800;color:#c084fc;margin-bottom:14px;">₹{{ "%.2f"|format(product.price) }}</div>
+    <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:18px;">{{ product.description or 'No description provided.' }}</p>
+
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;font-size:13px;color:rgba(255,255,255,0.5);">
+      <div>📍 {{ product.city }}, {{ product.country }}</div>
+      {% if product.contact_number %}<div>📞 {{ product.contact_number }}</div>{% endif %}
+      <div>🏪 Sold by {{ seller.name if seller else 'Seller' }}</div>
+      <div>🏷️ {{ product.category or 'General' }}</div>
+    </div>
+
+    <!-- Order Form -->
+    {% if user_id != product.user_id %}
+    <form method="POST" action="/order/place/{{ product.id }}">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+        <label style="font-size:12px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.7px;">Quantity</label>
+        <input type="number" name="quantity" value="1" min="1" max="99" style="width:80px;padding:8px 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:#fff;font-size:14px;outline:none;"/>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="font-size:12px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.7px;display:block;margin-bottom:6px;">Note to seller (optional)</label>
+        <textarea name="note" placeholder="Any special request..." style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea>
+      </div>
+      <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;padding:14px;">🛒 Place Order</button>
+    </form>
+    {% else %}
+    <div style="padding:12px;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.25);border-radius:12px;font-size:13px;color:#c084fc;text-align:center;">This is your own product</div>
+    {% endif %}
+
+    <!-- Social Links -->
+    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+      {% if product.wa_link %}<a href="{{ product.wa_link }}" target="_blank" class="btn" style="background:#25D366;box-shadow:0 4px 14px rgba(37,211,102,0.3);padding:9px 16px;font-size:12px;">WhatsApp</a>{% endif %}
+      {% if product.fb_link %}<a href="{{ product.fb_link }}" target="_blank" class="btn" style="background:#1877F2;box-shadow:0 4px 14px rgba(24,119,242,0.3);padding:9px 16px;font-size:12px;">Facebook</a>{% endif %}
+      {% if product.ig_link %}<a href="{{ product.ig_link }}" target="_blank" class="btn" style="background:linear-gradient(135deg,#833AB4,#FD1D1D);box-shadow:0 4px 14px rgba(131,58,180,0.3);padding:9px 16px;font-size:12px;">Instagram</a>{% endif %}
+    </div>
+  </div>
+</div>
+</main>
+<script>
+document.querySelectorAll('.btn').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    const r=document.createElement('span');const rect=btn.getBoundingClientRect();
+    const s=Math.max(rect.width,rect.height);r.className='ripple';
+    r.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-rect.left-s/2}px;top:${e.clientY-rect.top-s/2}px`;
+    btn.appendChild(r);setTimeout(()=>r.remove(),600);
+  });
+});
+</script>
+</body>
+</html>
