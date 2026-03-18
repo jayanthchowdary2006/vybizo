@@ -61,11 +61,20 @@ def admin_required(f):
 
 def init_db():
     with get_db() as c:
-        c.execute("""CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL, mobile TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP)""")
+        # Check if user_id column exists in users table
+        columns = [col[1] for col in c.execute("PRAGMA table_info(users)").fetchall()]
+        
+        if not columns:
+            c.execute("""CREATE TABLE users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL, 
+                mobile TEXT NOT NULL UNIQUE,
+                user_id TEXT UNIQUE,
+                password TEXT NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP)""")
+        elif "user_id" not in columns:
+            c.execute("ALTER TABLE users ADD COLUMN user_id TEXT")
+
         c.execute("""CREATE TABLE IF NOT EXISTS business_profiles (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id TEXT NOT NULL UNIQUE, business_name TEXT NOT NULL,
@@ -112,27 +121,37 @@ def login():
     if "user_id" in session:
         return redirect(url_for("home"))
     if request.method == "POST":
-        mobile = request.form.get("mobile", "").strip()
-        pwd    = request.form.get("password", "").strip()
-        if not mobile or not pwd:
+        # Form uses name="user_id" for mobile or username
+        uid_input = request.form.get("user_id", "").strip()
+        pwd       = request.form.get("password", "").strip()
+        
+        if not uid_input or not pwd:
             flash("Please fill in all fields.", "error")
             return render_template("login.html")
-        if mobile == ADMIN_MOBILE and pwd == ADMIN_PASS:
+            
+        if uid_input == ADMIN_MOBILE and pwd == ADMIN_PASS:
             session.permanent = True
             session["user_id"]  = ADMIN_MOBILE
             session["name"]     = "Admin"
             session["is_admin"] = True
             return redirect(url_for("admin_dashboard"))
+            
         with get_db() as c:
-            user = c.execute("SELECT * FROM users WHERE mobile=?", (mobile,)).fetchone()
+            # Match against user_id OR mobile
+            user = c.execute("SELECT * FROM users WHERE user_id=? OR mobile=?", 
+                           (uid_input, uid_input)).fetchone()
+            
         if user and user["password"] == hash_password(pwd):
             session.permanent = True
+            # We keep using mobile as the internal primary key (user_id in session)
+            # because existing business_profiles/products use it.
             session["user_id"]  = user["mobile"]
             session["name"]     = user["name"]
             session["is_admin"] = False
             flash(f"Welcome back, {user['name']}!", "success")
             return redirect(url_for("home"))
-        flash("Invalid mobile number or password.", "error")
+            
+        flash("Invalid credentials.", "error")
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -140,68 +159,48 @@ def register():
     if "user_id" in session:
         return redirect(url_for("home"))
     if request.method == "POST":
-        name   = request.form.get("name",   "").strip()
-        mobile = request.form.get("mobile", "").strip()
-        if not name or not mobile:
-            flash("Name and mobile are required.", "error")
-            return render_template("register.html")
-        if not valid_mobile(mobile):
-            flash("Enter a valid 10-digit Indian mobile number.", "error")
-            return render_template("register.html")
-        with get_db() as c:
-            exists = c.execute("SELECT id FROM users WHERE mobile=?", (mobile,)).fetchone()
-        if exists:
-            flash("Mobile already registered. Please log in.", "error")
-            return render_template("register.html")
-        key = generate_key()
-        session["reg_name"]   = name
-        session["reg_mobile"] = mobile
-        session["reg_key"]    = key
-        return redirect(url_for("register_verify"))
-    return render_template("register.html")
-
-@app.route("/register/verify", methods=["GET", "POST"])
-def register_verify():
-    if "reg_key" not in session:
-        return redirect(url_for("register"))
-    if request.method == "POST":
-        if request.form.get("security_key", "").strip() == session.get("reg_key"):
-            session["reg_verified"] = True
-            return redirect(url_for("register_password"))
-        flash("Incorrect security key.", "error")
-    return render_template("register_verify.html",
-                           security_key=session.get("reg_key"),
-                           mobile=session.get("reg_mobile"))
-
-@app.route("/register/password", methods=["GET", "POST"])
-def register_password():
-    if not session.get("reg_verified"):
-        return redirect(url_for("register"))
-    if request.method == "POST":
+        name    = request.form.get("name", "").strip()
+        mobile  = request.form.get("mobile", "").strip()
+        user_id = request.form.get("user_id", "").strip()
         pwd     = request.form.get("password", "").strip()
-        confirm = request.form.get("confirm",  "").strip()
+        confirm = request.form.get("confirm", "").strip()
+
+        if not all([name, mobile, user_id, pwd]):
+            flash("All fields are required.", "error")
+            return render_template("register.html")
+            
+        if not valid_mobile(mobile):
+            flash("Enter a valid 10-digit mobile number.", "error")
+            return render_template("register.html")
+            
         if len(pwd) < 6:
             flash("Password must be at least 6 characters.", "error")
-            return render_template("register_password.html")
+            return render_template("register.html")
+            
         if pwd != confirm:
             flash("Passwords do not match.", "error")
-            return render_template("register_password.html")
-        name   = session.pop("reg_name", "")
-        mobile = session.pop("reg_mobile", "")
-        session.pop("reg_key", None)
-        session.pop("reg_verified", None)
-        try:
-            with get_db() as c:
-                c.execute("INSERT INTO users(name,mobile,password) VALUES(?,?,?)",
-                          (name, mobile, hash_password(pwd)))
-                c.commit()
-            flash("Account created! Please log in.", "success")
-            return redirect(url_for("login"))
-        except sqlite3.IntegrityError:
-            flash("Mobile already registered.", "error")
-            return redirect(url_for("register"))
-    return render_template("register_password.html")
+            return render_template("register.html")
 
+        with get_db() as c:
+            exists = c.execute("SELECT id FROM users WHERE mobile=? OR user_id=?", 
+                             (mobile, user_id)).fetchone()
+            if exists:
+                flash("Mobile or Vybizo ID already registered.", "error")
+                return render_template("register.html")
+            
+            try:
+                c.execute("INSERT INTO users(name, mobile, user_id, password) VALUES(?,?,?,?)",
+                          (name, mobile, user_id, hash_password(pwd)))
+                c.commit()
+                flash("Account created! Please log in.", "success")
+                return redirect(url_for("login"))
+            except sqlite3.IntegrityError:
+                flash("Registration failed. Please try again.", "error")
+                return render_template("register.html")
+                
+    return render_template("register.html")
+
+# Keep forgot flow if needed, but remove the missing verify/password routes
 @app.route("/logout")
 def logout():
     session.clear()
@@ -217,7 +216,7 @@ def forgot():
         with get_db() as c:
             user = c.execute("SELECT id FROM users WHERE mobile=?", (mobile,)).fetchone()
         if not user:
-            flash("No account found with this mobile number.", "error")
+            flash("No account found.", "error")
             return render_template("forgot.html")
         session["fp_mobile"] = mobile
         session["fp_key"]    = generate_key()
@@ -330,11 +329,11 @@ def place_order(pid):
         qty   = int(request.form.get("quantity", 1))
         note  = request.form.get("note", "").strip()
         total = product["price"] * qty
-        c.execute("""INSERT INTO orders
+        cursor = c.execute("""INSERT INTO orders
             (customer_id,product_id,seller_id,quantity,total_price,note)
             VALUES(?,?,?,?,?,?)""",
             (session["user_id"], pid, product["user_id"], qty, total, note))
-        order_id = c.lastrowid
+        order_id = cursor.lastrowid
         c.execute("INSERT INTO notifications(recipient,message,order_id) VALUES(?,?,?)",
             (product["user_id"],
              f"New order from {session['name']}! {product['title']} x{qty} — Rs.{total:.2f}",
@@ -579,11 +578,12 @@ def api_products():
 @login_required
 def api_profile():
     with get_db() as c:
-        user=c.execute("SELECT * FROM users WHERE mobile=?",(session["user_id"],)).fetchone()
-        business=c.execute("SELECT * FROM business_profiles WHERE user_id=?",(session["user_id"],)).fetchone()
-    data=dict(user) if user else {}
-    data["business"]=dict(business) if business else None
-    return jsonify(data)
+        user = c.execute("SELECT * FROM users WHERE mobile=?", (session["user_id"],)).fetchone()
+        business = c.execute("SELECT * FROM business_profiles WHERE user_id=?", (session["user_id"],)).fetchone()
+    
+    user_data = dict(user) if user else {}
+    biz_data = dict(business) if business else None
+    return jsonify({**user_data, "business": biz_data})
 
 if __name__ == "__main__":
     init_db()

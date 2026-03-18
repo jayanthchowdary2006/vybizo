@@ -1,238 +1,693 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vybizo — Business Profile</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'DM Sans',sans-serif;min-height:100vh;background:#07000f;color:#fff;padding-bottom:60px;}
-    .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 20% 40%,#1a0533 0%,transparent 55%),radial-gradient(ellipse at 80% 60%,#001a3d 0%,transparent 55%),#07000f;animation:bgShift 10s ease-in-out infinite alternate;}
-    @keyframes bgShift{from{filter:hue-rotate(0deg);}to{filter:hue-rotate(20deg) brightness(1.1);}}
-    .floaters{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
-    .floater{position:absolute;border-radius:22%;display:flex;align-items:center;justify-content:center;opacity:.11;animation:bob ease-in-out infinite;}
-    @keyframes bob{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-35px) rotate(180deg);}}
-    .f1{left:4%;top:18%;width:44px;height:44px;background:#1877F2;animation-duration:7s;animation-delay:-2s;}
-    .i1{left:82%;top:45%;width:48px;height:48px;background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);animation-duration:9s;animation-delay:-4s;}
-    .w1{left:50%;top:78%;width:42px;height:42px;background:#25D366;animation-duration:8s;animation-delay:-1s;}
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    nav{position:sticky;top:0;z-index:100;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:rgba(7,0,15,0.85);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 24px;display:flex;align-items:center;gap:12px;}
-    .nav-right{margin-left:auto;display:flex;gap:10px;}
-    .nav-btn{padding:7px 14px;border-radius:99px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);transition:all 0.2s;display:inline-flex;align-items:center;gap:5px;}
-    .nav-btn:hover{background:rgba(168,85,247,0.25);border-color:rgba(168,85,247,0.5);}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      background: #07000f;
+      color: #fff;
+      padding-bottom: 60px;
+    }
 
-    .vybizo-nav-brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:3px;text-decoration:none;display:inline-flex;gap:1px;animation:navGlow 3s ease-in-out infinite alternate;}
-    @keyframes navGlow{from{filter:brightness(1);}to{filter:brightness(1.3) drop-shadow(0 0 12px rgba(255,110,247,0.6));}}
-    .vybizo-nav-brand .lV{color:#ff6ef7;-webkit-text-stroke:1px #ff00e5;}
-    .vybizo-nav-brand .lY{color:#ffb347;-webkit-text-stroke:1px #ff8c00;}
-    .vybizo-nav-brand .lB{color:#7fffff;-webkit-text-stroke:1px #00d4d4;}
-    .vybizo-nav-brand .lI{color:#ff6b9d;-webkit-text-stroke:1px #ff0055;}
-    .vybizo-nav-brand .lZ{color:#a8ff6e;-webkit-text-stroke:1px #5aff00;}
-    .vybizo-nav-brand .lO{color:#6eb5ff;-webkit-text-stroke:1px #007aff;}
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(ellipse at 20% 40%, #1a0533 0%, transparent 55%), radial-gradient(ellipse at 80% 60%, #001a3d 0%, transparent 55%), #07000f;
+      animation: bgShift 10s ease-in-out infinite alternate;
+    }
 
-    main{position:relative;z-index:10;max-width:680px;margin:0 auto;padding:36px 20px;}
-    .page-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:24px;padding:36px;animation:slideUp 0.6s cubic-bezier(0.22,1,0.36,1) both;}
-    @keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes bgShift {
+      from {
+        filter: hue-rotate(0deg);
+      }
 
-    .page-heading{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;text-align:center;margin-bottom:4px;background:linear-gradient(135deg,#fff 30%,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .page-sub{text-align:center;font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:28px;}
+      to {
+        filter: hue-rotate(20deg) brightness(1.1);
+      }
+    }
 
-    .section-sep{margin:24px 0 18px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#a855f7;text-transform:uppercase;letter-spacing:0.7px;display:flex;align-items:center;gap:10px;}
-    .section-sep::after{content:'';flex:1;height:1px;background:rgba(168,85,247,0.25);}
+    .floaters {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
 
-    label{display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,0.45);letter-spacing:0.7px;text-transform:uppercase;margin-bottom:6px;}
-    .field{margin-bottom:16px;}
-    input[type=text],input[type=tel],input[type=url],textarea,select{width:100%;padding:11px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border 0.2s,background 0.2s,box-shadow 0.2s;-webkit-appearance:none;appearance:none;}
-    input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.22);}
-    input:focus,textarea:focus,select:focus{border-color:rgba(168,85,247,0.7);background:rgba(255,255,255,0.09);box-shadow:0 0 0 3px rgba(168,85,247,0.15);}
-    textarea{resize:vertical;min-height:80px;}
-    select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;}
-    select option{background:#1a0033;color:#fff;}
-    select option:disabled{color:rgba(255,255,255,0.3);}
+    .floater {
+      position: absolute;
+      border-radius: 22%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: .11;
+      animation: bob ease-in-out infinite;
+    }
 
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+    @keyframes bob {
 
-    .social-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-    .social-badge{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .sb-fb{background:#1877F2;}.sb-ig{background:linear-gradient(135deg,#833AB4,#FD1D1D,#FCAF45);}.sb-wa{background:#25D366;}.sb-yt{background:#FF0000;}
-    .social-row input{margin-bottom:0;flex:1;}
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
 
-    .gps-btn{width:100%;padding:11px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:12px;color:#25D366;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background 0.2s;margin-bottom:8px;}
-    .gps-btn:hover{background:rgba(37,211,102,0.2);}
-    .gps-info{font-size:12px;color:rgba(255,255,255,0.3);text-align:center;margin-bottom:10px;}
+      50% {
+        transform: translateY(-35px) rotate(180deg);
+      }
+    }
+
+    .f1 {
+      left: 4%;
+      top: 18%;
+      width: 44px;
+      height: 44px;
+      background: #1877F2;
+      animation-duration: 7s;
+      animation-delay: -2s;
+    }
+
+    .i1 {
+      left: 82%;
+      top: 45%;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #833AB4, #FD1D1D, #FCAF45);
+      animation-duration: 9s;
+      animation-delay: -4s;
+    }
+
+    .w1 {
+      left: 50%;
+      top: 78%;
+      width: 42px;
+      height: 42px;
+      background: #25D366;
+      animation-duration: 8s;
+      animation-delay: -1s;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background: rgba(7, 0, 15, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-right {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      padding: 7px 14px;
+      border-radius: 99px;
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nav-btn:hover {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: rgba(168, 85, 247, 0.5);
+    }
+
+    .vybizo-nav-brand {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-decoration: none;
+      display: inline-flex;
+      gap: 1px;
+      animation: navGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes navGlow {
+      from {
+        filter: brightness(1);
+      }
+
+      to {
+        filter: brightness(1.3) drop-shadow(0 0 12px rgba(255, 110, 247, 0.6));
+      }
+    }
+
+    .vybizo-nav-brand .lV {
+      color: #ff6ef7;
+      -webkit-text-stroke: 1px #ff00e5;
+    }
+
+    .vybizo-nav-brand .lY {
+      color: #ffb347;
+      -webkit-text-stroke: 1px #ff8c00;
+    }
+
+    .vybizo-nav-brand .lB {
+      color: #7fffff;
+      -webkit-text-stroke: 1px #00d4d4;
+    }
+
+    .vybizo-nav-brand .lI {
+      color: #ff6b9d;
+      -webkit-text-stroke: 1px #ff0055;
+    }
+
+    .vybizo-nav-brand .lZ {
+      color: #a8ff6e;
+      -webkit-text-stroke: 1px #5aff00;
+    }
+
+    .vybizo-nav-brand .lO {
+      color: #6eb5ff;
+      -webkit-text-stroke: 1px #007aff;
+    }
+
+    main {
+      position: relative;
+      z-index: 10;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 36px 20px;
+    }
+
+    .page-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 36px;
+      animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-heading {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 4px;
+      background: linear-gradient(135deg, #fff 30%, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-sub {
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 28px;
+    }
+
+    .section-sep {
+      margin: 24px 0 18px;
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #a855f7;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-sep::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(168, 85, 247, 0.25);
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    input[type=text],
+    input[type=tel],
+    input[type=url],
+    textarea,
+    select {
+      width: 100%;
+      padding: 11px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border 0.2s, background 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.22);
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(168, 85, 247, 0.7);
+      background: rgba(255, 255, 255, 0.09);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    select option {
+      background: #1a0033;
+      color: #fff;
+    }
+
+    select option:disabled {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .grid3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .social-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .social-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sb-fb {
+      background: #1877F2;
+    }
+
+    .sb-ig {
+      background: linear-gradient(135deg, #833AB4, #FD1D1D, #FCAF45);
+    }
+
+    .sb-wa {
+      background: #25D366;
+    }
+
+    .sb-yt {
+      background: #FF0000;
+    }
+
+    .social-row input {
+      margin-bottom: 0;
+      flex: 1;
+    }
+
+    .gps-btn {
+      width: 100%;
+      padding: 11px;
+      background: rgba(37, 211, 102, 0.1);
+      border: 1px solid rgba(37, 211, 102, 0.25);
+      border-radius: 12px;
+      color: #25D366;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 8px;
+    }
+
+    .gps-btn:hover {
+      background: rgba(37, 211, 102, 0.2);
+    }
+
+    .gps-info {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.3);
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
     /* SAVE BUTTON */
-    .save-btn{position:relative;overflow:hidden;width:100%;padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;border:none;border-radius:14px;cursor:pointer;background:linear-gradient(135deg,#7c3aed,#a855f7,#ec4899);background-size:200% 200%;background-position:left center;transition:background-position 0.4s,transform 0.15s,box-shadow 0.3s;box-shadow:0 4px 24px rgba(168,85,247,0.4);margin-top:10px;}
-    .save-btn:hover{background-position:right center;box-shadow:0 6px 32px rgba(168,85,247,0.65);transform:translateY(-2px);}
-    .save-btn:active{transform:scale(0.97);}
+    .save-btn {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      padding: 14px;
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #7c3aed, #a855f7, #ec4899);
+      background-size: 200% 200%;
+      background-position: left center;
+      transition: background-position 0.4s, transform 0.15s, box-shadow 0.3s;
+      box-shadow: 0 4px 24px rgba(168, 85, 247, 0.4);
+      margin-top: 10px;
+    }
+
+    .save-btn:hover {
+      background-position: right center;
+      box-shadow: 0 6px 32px rgba(168, 85, 247, 0.65);
+      transform: translateY(-2px);
+    }
+
+    .save-btn:active {
+      transform: scale(0.97);
+    }
 
     /* TOAST NOTIFICATION */
-    .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.4);color:#86efac;padding:12px 24px;border-radius:12px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;z-index:999;transition:transform 0.35s cubic-bezier(0.22,1,0.36,1),opacity 0.35s;opacity:0;backdrop-filter:blur(16px);}
-    .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
-    .toast.error{background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.4);color:#fca5a5;}
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #86efac;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      z-index: 999;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s;
+      opacity: 0;
+      backdrop-filter: blur(16px);
+    }
 
-    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.3);transform:scale(0);animation:rippleAnim 0.55s ease-out forwards;pointer-events:none;}
-    @keyframes rippleAnim{to{transform:scale(4.5);opacity:0;}}
-    .req{color:#ec4899;}
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast.error {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(0);
+      animation: rippleAnim 0.55s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes rippleAnim {
+      to {
+        transform: scale(4.5);
+        opacity: 0;
+      }
+    }
+
+    .req {
+      color: #ec4899;
+    }
   </style>
 </head>
+
 <body>
-<div class="bg"></div>
-<div class="floaters">
-  <div class="floater f1"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
-  <div class="floater i1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg></div>
-  <div class="floater w1"><svg width="21" height="21" viewBox="0 0 24 24" fill="white"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
-</div>
-
-<nav>
-  <a href="/home" class="vybizo-nav-brand"><span class="lV">V</span><span class="lY">Y</span><span class="lB">B</span><span class="lI">I</span><span class="lZ">Z</span><span class="lO">O</span></a>
-  <div class="nav-right">
-    <a href="/profile" class="nav-btn">← Back to Profile</a>
-    <a href="/home" class="nav-btn">🏠 Home</a>
+  <div class="bg"></div>
+  <div class="floaters">
+    <div class="floater f1"><svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+      </svg></div>
+    <div class="floater i1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none" />
+      </svg></div>
+    <div class="floater w1"><svg width="21" height="21" viewBox="0 0 24 24" fill="white">
+        <path
+          d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
+      </svg></div>
   </div>
-</nav>
 
-<div class="toast" id="toast"></div>
+  <nav>
+    <a href="/home" class="vybizo-nav-brand"><span class="lV">V</span><span class="lY">Y</span><span
+        class="lB">B</span><span class="lI">I</span><span class="lZ">Z</span><span class="lO">O</span></a>
+    <div class="nav-right">
+      <a href="/profile" class="nav-btn">← Back to Profile</a>
+      <a href="/home" class="nav-btn">🏠 Home</a>
+    </div>
+  </nav>
 
-<main>
-  <div class="page-card">
-    <div class="page-heading">Business Profile</div>
-    <div class="page-sub">Set up your shop on Vybizo and reach thousands of customers</div>
+  <div class="toast" id="toast"></div>
 
-    <form id="bizForm" method="POST" action="/business/create">
+  <main>
+    <div class="page-card">
+      <div class="page-heading">Business Profile</div>
+      <div class="page-sub">Set up your shop on Vybizo and reach thousands of customers</div>
 
-      <!-- Basic Info -->
-      <div class="section-sep">Business Info</div>
-      <div class="field">
-        <label>Business Name <span class="req">*</span></label>
-        <input type="text" name="business_name" id="f_biz_name" placeholder="e.g. Riya's Boutique" value="{{ business.business_name if business else '' }}" required/>
-      </div>
-      <div class="field">
-        <label>Category <span class="req">*</span></label>
-        <select name="category" id="f_category" required>
-          <option value="" disabled {{ 'selected' if not business else '' }}>— Select a category —</option>
-          {% for cat in ["Fashion & Clothing", "Food & Beverages", "Electronics", "Handicrafts", "Beauty & Wellness", "Home Decor", "Jewellery", "Books & Stationery", "Toys & Kids", "Sports & Fitness", "Art & Photography", "Agriculture & Organic", "Fruits & Vegetables", "Mobile Accessories", "Footwear", "Health & Medicine", "Automotive", "Pet Supplies", "Education", "Services", "Other"] %}
-            <option value="{{ cat }}" {{ 'selected' if business and business.category == cat else '' }}>{{ cat }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="field">
-        <label>Description</label>
-        <textarea name="description" id="f_desc" placeholder="Tell customers what your business is about…">{{ business.description if business else '' }}</textarea>
-      </div>
-      <div class="field">
-        <label>Contact Number <span class="req">*</span></label>
-        <input type="tel" name="contact_number" id="f_contact" placeholder="WhatsApp / call number" value="{{ business.contact_number if business else '' }}"/>
-      </div>
+      <form id="bizForm" method="POST" action="">
 
-      <!-- Social Links -->
-      <div class="section-sep">Social Media Links</div>
-      <div class="social-row">
-        <div class="social-badge sb-fb"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
-        <input type="url" name="fb_link" id="f_fb" placeholder="https://facebook.com/yourpage" value="{{ business.fb_link if business else '' }}"/>
-      </div>
-      <div class="social-row">
-        <div class="social-badge sb-ig"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg></div>
-        <input type="url" name="ig_link" id="f_ig" placeholder="https://instagram.com/yourprofile" value="{{ business.ig_link if business else '' }}"/>
-      </div>
-      <div class="social-row">
-        <div class="social-badge sb-wa"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
-        <input type="url" name="wa_link" id="f_wa" placeholder="https://wa.me/91XXXXXXXXXX" value="{{ business.wa_link if business else '' }}"/>
-      </div>
-      <div class="social-row">
-        <div class="social-badge sb-yt"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#FF0000"/></svg></div>
-        <input type="url" name="other_link" id="f_other" placeholder="https://youtube.com/yourchannel or website" value="{{ business.other_link if business else '' }}"/>
-      </div>
+        <!-- Basic Info -->
+        <div class="section-sep">Business Info</div>
+        <div class="field">
+          <label>Business Name <span class="req">*</span></label>
+          <input type="text" name="business_name" id="f_biz_name" placeholder="e.g. Riya's Boutique"
+            value="{{ business.business_name if business else '' }}" required />
+        </div>
+        <div class="field">
+          <label>Category <span class="req">*</span></label>
+          <select name="category" id="f_category" required>
+            <option value="" disabled {{ 'selected' if not business else '' }}>— Select a category —</option>
+            {% for cat in ["Fashion & Clothing", "Food & Beverages", "Electronics", "Handicrafts", "Beauty & Wellness",
+            "Home Decor", "Jewellery", "Books & Stationery", "Toys & Kids", "Sports & Fitness", "Art & Photography",
+            "Agriculture & Organic", "Fruits & Vegetables", "Mobile Accessories", "Footwear", "Health & Medicine",
+            "Automotive", "Pet Supplies", "Education", "Services", "Other"] %}
+            <option value="{{ cat }}" {{ 'selected' if business and business.category==cat else '' }}>{{ cat }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea name="description" id="f_desc"
+            placeholder="Tell customers what your business is about…">{{ business.description if business else '' }}</textarea>
+        </div>
+        <div class="field">
+          <label>Contact Number <span class="req">*</span></label>
+          <input type="tel" name="contact_number" id="f_contact" placeholder="WhatsApp / call number"
+            value="{{ business.contact_number if business else '' }}" />
+        </div>
 
-      <!-- Address -->
-      <div class="section-sep">Shop / Workplace Address</div>
-      <div class="field">
-        <label>Street Address <span class="req">*</span></label>
-        <input type="text" name="address" id="f_addr" placeholder="Shop no., street, area…" value="{{ business.address if business else '' }}" required/>
-      </div>
-      <div class="grid2">
-        <div class="field"><label>City <span class="req">*</span></label><input type="text" name="city" id="f_city" placeholder="City" value="{{ business.city if business else '' }}" required/></div>
-        <div class="field"><label>State <span class="req">*</span></label><input type="text" name="state" id="f_state" placeholder="State" value="{{ business.state if business else '' }}" required/></div>
-      </div>
-      <div class="grid2">
-        <div class="field"><label>Country <span class="req">*</span></label><input type="text" name="country" id="f_country" placeholder="Country" value="{{ business.country if business else 'India' }}" required/></div>
-        <div class="field"><label>PIN Code</label><input type="text" name="pincode" id="f_pin" placeholder="PIN / ZIP" maxlength="10" value="{{ business.pincode if business else '' }}"/></div>
-      </div>
+        <!-- Social Links -->
+        <div class="section-sep">Social Media Links</div>
+        <div class="social-row">
+          <div class="social-badge sb-fb"><svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+            </svg></div>
+          <input type="url" name="fb_link" id="f_fb" placeholder="https://facebook.com/yourpage"
+            value="{{ business.fb_link if business else '' }}" />
+        </div>
+        <div class="social-row">
+          <div class="social-badge sb-ig"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none" />
+            </svg></div>
+          <input type="url" name="ig_link" id="f_ig" placeholder="https://instagram.com/yourprofile"
+            value="{{ business.ig_link if business else '' }}" />
+        </div>
+        <div class="social-row">
+          <div class="social-badge sb-wa"><svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+              <path
+                d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
+            </svg></div>
+          <input type="url" name="wa_link" id="f_wa" placeholder="https://wa.me/91XXXXXXXXXX"
+            value="{{ business.wa_link if business else '' }}" />
+        </div>
+        <div class="social-row">
+          <div class="social-badge sb-yt"><svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+              <path
+                d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z" />
+              <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#FF0000" />
+            </svg></div>
+          <input type="url" name="other_link" id="f_other" placeholder="https://youtube.com/yourchannel or website"
+            value="{{ business.other_link if business else '' }}" />
+        </div>
 
-      <!-- GPS -->
-      <div class="section-sep">GPS Location</div>
-      <button type="button" class="gps-btn" onclick="getGPS()">📍 Auto-detect My Location</button>
-      <div class="gps-info" id="gpsInfo">Click above to pin your exact shop location</div>
-      <div class="grid2">
-        <div class="field"><label>Latitude</label><input type="text" name="latitude" id="f_lat" placeholder="Auto-filled" value="{{ business.latitude if business else '' }}"/></div>
-        <div class="field"><label>Longitude</label><input type="text" name="longitude" id="f_lng" placeholder="Auto-filled" value="{{ business.longitude if business else '' }}"/></div>
-      </div>
+        <!-- Address -->
+        <div class="section-sep">Shop / Workplace Address</div>
+        <div class="field">
+          <label>Street Address <span class="req">*</span></label>
+          <input type="text" name="address" id="f_addr" placeholder="Shop no., street, area…"
+            value="{{ business.address if business else '' }}" required />
+        </div>
+        <div class="grid2">
+          <div class="field"><label>City <span class="req">*</span></label><input type="text" name="city" id="f_city"
+              placeholder="City" value="{{ business.city if business else '' }}" required /></div>
+          <div class="field"><label>State <span class="req">*</span></label><input type="text" name="state" id="f_state"
+              placeholder="State" value="{{ business.state if business else '' }}" required /></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Country <span class="req">*</span></label><input type="text" name="country"
+              id="f_country" placeholder="Country" value="{{ business.country if business else 'India' }}" required />
+          </div>
+          <div class="field"><label>PIN Code</label><input type="text" name="pincode" id="f_pin" placeholder="PIN / ZIP"
+              maxlength="10" value="{{ business.pincode if business else '' }}" /></div>
+        </div>
 
-      <button type="submit" class="save-btn" id="saveBtn">💾 Save Business Profile</button>
-    </form>
-  </div>
-</main>
+        <!-- GPS -->
+        <div class="section-sep">GPS Location</div>
+        <button type="button" class="gps-btn" onclick="getGPS()">📍 Auto-detect My Location</button>
+        <div class="gps-info" id="gpsInfo">Click above to pin your exact shop location</div>
+        <div class="grid2">
+          <div class="field"><label>Latitude</label><input type="text" name="latitude" id="f_lat"
+              placeholder="Auto-filled" value="{{ business.latitude if business else '' }}" /></div>
+          <div class="field"><label>Longitude</label><input type="text" name="longitude" id="f_lng"
+              placeholder="Auto-filled" value="{{ business.longitude if business else '' }}" /></div>
+        </div>
 
-<script>
-/* ── GPS ── */
-function getGPS() {
-  const info = document.getElementById('gpsInfo');
-  info.textContent = '⏳ Detecting your location…';
-  info.style.color = '#ffb347';
-  if (!navigator.geolocation) { info.textContent = '❌ Geolocation not supported'; return; }
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      document.getElementById('f_lat').value = pos.coords.latitude.toFixed(6);
-      document.getElementById('f_lng').value = pos.coords.longitude.toFixed(6);
-      info.textContent = `✅ Location pinned: ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
-      info.style.color = '#86efac';
-    },
-    () => { info.textContent = '❌ Could not detect — please allow location access'; info.style.color = '#fca5a5'; }
-  );
-}
+        <button type="submit" class="save-btn" id="saveBtn">💾 Save Business Profile</button>
+      </form>
+    </div>
+  </main>
 
-/* ── Toast notification ── */
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + type + ' show';
-  setTimeout(() => t.className = 'toast ' + type, 3200);
-}
+  <script>
+    /* ── GPS ── */
+    function getGPS() {
+      const info = document.getElementById('gpsInfo');
+      info.textContent = '⏳ Detecting your location…';
+      info.style.color = '#ffb347';
+      if (!navigator.geolocation) { info.textContent = '❌ Geolocation not supported'; return; }
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          document.getElementById('f_lat').value = pos.coords.latitude.toFixed(6);
+          document.getElementById('f_lng').value = pos.coords.longitude.toFixed(6);
+          info.textContent = `✅ Location pinned: ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+          info.style.color = '#86efac';
+        },
+        () => { info.textContent = '❌ Could not detect — please allow location access'; info.style.color = '#fca5a5'; }
+      );
+    }
 
-/* ── Form submit — show toast feedback ── */
-document.getElementById('bizForm').addEventListener('submit', function(e) {
-  const btn = document.getElementById('saveBtn');
-  btn.textContent = '⏳ Saving…';
-  btn.disabled = true;
-  // Let form submit normally, toast will show on reload via flash message
-});
+    /* ── Toast notification ── */
+    function showToast(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.className = 'toast ' + type + ' show';
+      setTimeout(() => t.className = 'toast ' + type, 3200);
+    }
 
-/* ── Ripple ── */
-document.querySelectorAll('.save-btn').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    const r = document.createElement('span');
-    const rect = btn.getBoundingClientRect();
-    const s = Math.max(rect.width, rect.height);
-    r.className = 'ripple';
-    r.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX-rect.left-s/2}px;top:${e.clientY-rect.top-s/2}px`;
-    btn.appendChild(r); setTimeout(() => r.remove(), 600);
-  });
-});
+    /* ── Form submit — show toast feedback ── */
+    document.getElementById('bizForm').addEventListener('submit', function (e) {
+      const btn = document.getElementById('saveBtn');
+      btn.textContent = '⏳ Saving…';
+      btn.disabled = true;
+    });
 
-/* ── Check URL for success param ── */
-const params = new URLSearchParams(window.location.search);
-if (params.get('saved') === '1') showToast('✅ Business profile saved successfully!');
-if (params.get('saved') === '0') showToast('❌ Please fill all required fields', 'error');
+    /* ── Ripple ── */
+    document.querySelectorAll('.save-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        const r = document.createElement('span');
+        const rect = btn.getBoundingClientRect();
+        const s = Math.max(rect.width, rect.height);
+        r.className = 'ripple';
+        r.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX - rect.left - s / 2}px;top:${e.clientY - rect.top - s / 2}px`;
+        btn.appendChild(r); setTimeout(() => r.remove(), 600);
+      });
+    });
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      showToast("{{ message }}", "{{ 'error' if category == 'error' else 'success' }}");
-    {% endfor %}
-  {% endif %}
-{% endwith %}
-</script>
+    /* ── Flash message handling ── */
+    const flashMessages = {{ get_flashed_messages(with_categories=true) | tojson }};
+    flashMessages.forEach(([category, message]) => {
+      showToast(message, category === 'error' ? 'error' : 'success');
+    });
+
+    /* ── Check URL for success param ── */
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('saved') === '1') showToast('✅ Business profile saved successfully!');
+    if (params.get('saved') === '0') showToast('❌ Please fill all required fields', 'error');
+  </script>
 </body>
+
 </html>
